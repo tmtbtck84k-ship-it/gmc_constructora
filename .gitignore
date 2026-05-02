@@ -1,0 +1,46 @@
+# Variables de entorno y secretos
+application/config/.env.php
+.env
+.env.local
+
+# Logs y caché
+application/logs/*
+!application/logs/index.html
+!application/logs/.gitkeep
+application/cache/*
+!application/cache/index.html
+!application/cache/.gitkeep
+
+# Uploads y temporales
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/tmp/*
+!storage/tmp/.gitkeep
+
+# Dependencias
+/vendor/
+/node_modules/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Backups
+/var/backups/
+*.sql.gz
+*.dump
+
+# Test artifacts
+/tests/_output/
+phpunit.xml
+.phpunit.result.cache
+
+# CodeIgniter session files (no se usan; sesión va en BD)
+application/sessions/
+
+# Composer
+composer.lock

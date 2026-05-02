@@ -1,0 +1,10 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+$autoload['packages']  = [];
+$autoload['libraries'] = ['database', 'session', 'form_validation', 'security'];
+$autoload['drivers']   = [];
+$autoload['helper']    = ['url', 'form', 'security', 'format', 'rut'];
+$autoload['config']    = [];
+$autoload['language']  = [];
+$autoload['model']     = [];

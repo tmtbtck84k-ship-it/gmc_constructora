@@ -1,0 +1,70 @@
+/* ==========  GMC ERP — estilos base  ========== */
+
+:root {
+  --gmc-primary: #0d6efd;
+  --gmc-sidebar-bg: #1e293b;
+  --gmc-sidebar-fg: #e2e8f0;
+  --gmc-sidebar-active: #0d6efd;
+  --gmc-content-bg: #f5f7fb;
+}
+
+html, body { height: 100%; }
+body { background: var(--gmc-content-bg); }
+
+/* ----------- Sidebar ----------- */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--gmc-sidebar-bg) !important;
+  color: var(--gmc-sidebar-fg) !important;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  transition: transform .2s ease;
+}
+.sidebar .nav-link {
+  color: var(--gmc-sidebar-fg);
+  border-radius: .375rem;
+  padding: .5rem .75rem;
+  margin-bottom: 2px;
+  font-size: .92rem;
+}
+.sidebar .nav-link:hover { background: rgba(255,255,255,.06); color: #fff; }
+.sidebar .nav-link.active {
+  background: var(--gmc-sidebar-active);
+  color: #fff;
+  font-weight: 500;
+}
+.sidebar .nav-section {
+  font-size: .72rem;
+  letter-spacing: .04em;
+  color: #64748b !important;
+}
+.sidebar-brand {
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  background: rgba(0,0,0,.15);
+}
+
+/* ----------- Layout ----------- */
+#wrapper { min-height: 100vh; }
+#page-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 0;
+}
+main { flex: 1 0 auto; }
+
+/* ----------- Mobile ----------- */
+@media (max-width: 767.98px) {
+  .sidebar { position: fixed; transform: translateX(-100%); z-index: 1040; }
+  .sidebar.show { transform: translateX(0); }
+}
+
+/* ----------- Cards / forms ----------- */
+.card { border: 1px solid #e5e7eb; }
+.form-label { font-weight: 500; font-size: .9rem; }
+.table thead th { font-size: .82rem; text-transform: uppercase; color: #64748b; letter-spacing: .03em; }
+
+/* Badges para estados */
+.badge { font-weight: 500; }
