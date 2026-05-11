@@ -35,6 +35,7 @@ if (!function_exists('menu_items')) {
             ['label'=>'Proyectos',         'icon'=>'kanban',       'url'=>'maestros/proyectos',       'perm'=>'maestros.proyecto.ver'],
             ['label'=>'Centros de Costo',  'icon'=>'tag',          'url'=>'maestros/centros-costo',   'perm'=>'maestros.cc.ver'],
             ['label'=>'Tipos de Gasto',    'icon'=>'list-ul',      'url'=>'maestros/tipos-gasto',     'perm'=>'maestros.tipo_gasto.ver'],
+            ['label'=>'Tipos de Cambio',   'icon'=>'currency-exchange','url'=>'maestros/tipos-cambio','perm'=>'maestros.tipo_cambio.ver'],
 
             ['_section'=>'Finanzas'],
             ['label'=>'Solicitudes de Pago','icon'=>'cash-coin',   'url'=>'finanzas/sdp',             'perm'=>'finanzas.sdp.ver'],
@@ -47,6 +48,10 @@ if (!function_exists('menu_items')) {
             ['label'=>'Bitácora',          'icon'=>'journal-text', 'url'=>'obras/bitacora',           'perm'=>'obras.bitacora.ver'],
             ['label'=>'Cierre de Obra',    'icon'=>'check2-square','url'=>'obras/cierre',             'perm'=>'obras.cierre.ver'],
             ['label'=>'Presupuesto inicial','icon'=>'calculator',  'url'=>'obras/presupuesto',        'perm'=>'obras.presupuesto.ver'],
+            ['label'=>'Gantt',             'icon'=>'bar-chart-steps','url'=>'obras/gantt',            'perm'=>'obras.gantt.ver'],
+            ['label'=>'Hitos',             'icon'=>'flag',         'url'=>'obras/hitos',              'perm'=>'obras.gantt.ver'],
+            ['label'=>'Actividades',       'icon'=>'list-task',    'url'=>'obras/actividades',        'perm'=>'obras.gantt.ver'],
+            ['label'=>'Feriados',          'icon'=>'calendar-x',   'url'=>'obras/feriados',           'perm'=>'obras.feriado.editar'],
 
             ['_section'=>'Reportes'],
             ['label'=>'Estado de Pagos',   'icon'=>'graph-up',     'url'=>'reportes/pagos',           'perm'=>'reportes.pagos.ver'],

@@ -44,6 +44,21 @@ class UsuarioRepo extends MY_Model
         return $q->get()->result_array();
     }
 
+    /**
+     * Usuarios activos (para selectores de responsable/JP/etc.).
+     * Cada fila incluye `nombre_completo` listo para mostrar.
+     */
+    public function activos(): array
+    {
+        return $this->db
+            ->select("id, rut, email, nombres, apellidos, "
+                . "TRIM(CONCAT(COALESCE(nombres,''),' ',COALESCE(apellidos,''))) AS nombre_completo", false)
+            ->where('activo', 1)
+            ->where('deleted_at IS NULL', null, false)
+            ->order_by('nombres', 'ASC')
+            ->get($this->table)->result_array();
+    }
+
     public function findByRut(string $rut): ?array
     {
         return $this->firstBy(['rut' => $rut]);

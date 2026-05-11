@@ -1,0 +1,28 @@
+# =====================================================================
+# .htaccess raíz — redirige todas las peticiones a public/
+# Este archivo permite que XAMPP / hosting compartido sirva el proyecto
+# sin necesidad de cambiar el DocumentRoot a public/.
+# =====================================================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Si la URL pide algo dentro de public/, no reescribir
+    RewriteRule ^public/ - [L]
+
+    # Bloquear acceso directo a carpetas sensibles
+    RewriteRule ^(application|system|storage|bin|tests|vendor|\.env)(/|$) - [F,L]
+
+    # Reescribir todo lo demás hacia public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Bloquear listado de directorios
+Options -Indexes
+
+# Bloquear archivos sensibles por extensión
+<FilesMatch "\.(env|md|json|lock|sql|sh|gitignore|gitattributes)$">
+    Require all denied
+</FilesMatch>
+
+# Permitir composer.json sólo si lo necesitan herramientas externas (opcional, se puede quitar)

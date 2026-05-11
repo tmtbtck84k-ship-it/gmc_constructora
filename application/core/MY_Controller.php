@@ -27,7 +27,10 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
 
-        // Carga obligatoria
+        // Carga obligatoria (defensivo: si el autoload falla, garantizamos
+        // que session/form_validation/database estén disponibles).
+        $this->load->library(['session', 'form_validation']);
+        $this->load->database();
         $this->load->library(['Auth', 'Acl', 'Audit']);
 
         // Si force_password_change y no estamos en /password/change ni en logout, redirigir
@@ -106,6 +109,12 @@ class MY_Controller extends CI_Controller
 
     public function json($data, int $code = 200): void
     {
+        // Si el config CSRF está en regenerate=TRUE, el siguiente POST AJAX
+        // necesita el nuevo token para no romperse. Lo adjuntamos siempre.
+        if (is_array($data) && !isset($data['csrf_hash'])) {
+            $data['csrf_hash'] = $this->security->get_csrf_hash();
+            $data['csrf_name'] = $this->security->get_csrf_token_name();
+        }
         $this->output
             ->set_status_header($code)
             ->set_content_type('application/json', 'utf-8')

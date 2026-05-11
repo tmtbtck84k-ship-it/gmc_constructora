@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup Gantt — ERP GMC</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.css">
+<style>
+  :root { --gmc-primary: #0d6efd; --gmc-sidebar-bg: #1e293b; }
+  body { background: #f5f7fb; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  .navbar-mock { background: #fff; border-bottom: 1px solid #e5e7eb; }
+  .sidebar { width: 240px; background: var(--gmc-sidebar-bg); color: #e2e8f0; min-height: 100vh; padding: 16px; }
+  .sidebar .nav-link { color: #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: .9rem; }
+  .sidebar .nav-link.active { background: var(--gmc-primary); color: #fff; }
+  .sidebar .nav-section { font-size: .72rem; text-transform: uppercase; color: #64748b; margin: 16px 0 4px; }
+  .gantt-panel { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+  .badge-mockup { background: #fef3c7; color: #92400e; font-weight: 600; padding: 4px 10px; border-radius: 999px; font-size: .75rem; }
+  .gantt .bar-progress { fill: #0d6efd !important; }
+  .gantt .bar { fill: #cfe2ff !important; }
+  .gantt .arrow { stroke: #6c757d; }
+  .gantt-critical .bar { fill: #fee2e2 !important; }
+  .gantt-critical .bar-progress { fill: #dc3545 !important; }
+  .legend-color { display: inline-block; width: 14px; height: 14px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+  .actividades-list { font-size: .85rem; }
+  .actividades-list .row-item { padding: 8px 12px; border-bottom: 1px solid #f1f5f9; }
+  .actividades-list .row-item:hover { background: #f8fafc; }
+  .actividades-list .hito-header { background: #eff6ff; font-weight: 600; color: var(--gmc-primary); padding: 10px 12px; }
+  .actividades-list .critica { color: #dc3545; }
+  .actividades-list .critica::before { content: "🔥 "; }
+  .progress-mini { height: 6px; }
+</style>
+</head>
+<body>
+
+<!-- ===== Navbar superior simulado ===== -->
+<nav class="navbar-mock d-flex justify-content-between align-items-center px-4 py-2">
+  <div>
+    <i class="bi bi-buildings-fill text-warning"></i>
+    <strong>ERP GMC</strong>
+    <span class="badge-mockup ms-3">MOCKUP — Pendiente de aprobación</span>
+  </div>
+  <div class="text-muted small">
+    <i class="bi bi-person-circle"></i> Juan Pérez (Jefe de Proyecto)
+  </div>
+</nav>
+
+<div class="d-flex">
+  <!-- ===== Sidebar simulado ===== -->
+  <aside class="sidebar">
+    <div class="mb-3"><strong><i class="bi bi-speedometer2"></i> Dashboard</strong></div>
+    <div class="nav-section">Maestros</div>
+    <a class="nav-link" href="#">Clientes</a>
+    <a class="nav-link" href="#">Proveedores</a>
+    <a class="nav-link" href="#">Proyectos</a>
+    <div class="nav-section">Obras</div>
+    <a class="nav-link" href="#">Bitácora</a>
+    <a class="nav-link active" href="#"><i class="bi bi-bar-chart"></i> Gantt</a>
+    <a class="nav-link" href="#">Cierre</a>
+    <a class="nav-link" href="#">Presupuesto</a>
+    <div class="nav-section">Finanzas</div>
+    <a class="nav-link" href="#">Solicitudes de Pago</a>
+  </aside>
+
+  <!-- ===== Contenido principal ===== -->
+  <main class="flex-grow-1 p-4" style="min-width: 0;">
+
+    <!-- Header del proyecto -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h4 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Gantt del proyecto</h4>
+        <small class="text-muted">
+          <code>OBR-2026-001</code> · Edificio Las Condes 1456 · Cliente: Inmobiliaria Andes
+          ·
+          <span class="badge bg-success">En ejecución</span>
+        </small>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-secondary btn-sm" onclick="changeView('Day')">Día</button>
+        <button class="btn btn-outline-secondary btn-sm active" onclick="changeView('Week')">Semana</button>
+        <button class="btn btn-outline-secondary btn-sm" onclick="changeView('Month')">Mes</button>
+        <button class="btn btn-warning btn-sm" id="toggleCritical">
+          <i class="bi bi-exclamation-triangle"></i> Ruta crítica
+        </button>
+        <button class="btn btn-outline-success btn-sm">
+          <i class="bi bi-file-earmark-pdf"></i> PDF
+        </button>
+        <button class="btn btn-primary btn-sm">
+          <i class="bi bi-plus-lg"></i> Nueva actividad
+        </button>
+      </div>
+    </div>
+
+    <!-- KPIs del proyecto -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm"><div class="card-body py-2">
+          <div class="text-muted small text-uppercase">Avance global</div>
+          <div class="fs-5 fw-bold">42%</div>
+          <div class="progress progress-mini mt-1"><div class="progress-bar bg-primary" style="width:42%"></div></div>
+        </div></div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm"><div class="card-body py-2">
+          <div class="text-muted small text-uppercase">Duración total</div>
+          <div class="fs-5 fw-bold">186 días <small class="text-muted">laborales</small></div>
+        </div></div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm"><div class="card-body py-2">
+          <div class="text-muted small text-uppercase">Días de holgura promedio</div>
+          <div class="fs-5 fw-bold text-success">8 días</div>
+        </div></div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm"><div class="card-body py-2">
+          <div class="text-muted small text-uppercase">Calendario</div>
+          <div class="fs-6 fw-bold">Lun-Sáb · sin feriados</div>
+          <small class="text-muted">21 mayo, 18-19 sept, 25 dic</small>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Layout: lista izq + Gantt der -->
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="gantt-panel">
+          <h6 class="mb-3"><i class="bi bi-list-ul me-1"></i>Hitos y actividades</h6>
+          <div class="actividades-list">
+
+            <div class="hito-header">
+              <i class="bi bi-flag-fill"></i> 1. Movimiento de tierras · 100%
+            </div>
+            <div class="row-item">Excavación general · <span class="text-muted">100%</span></div>
+            <div class="row-item">Compactación de sub-base · <span class="text-muted">100%</span></div>
+
+            <div class="hito-header">
+              <i class="bi bi-flag-fill"></i> 2. Obra gruesa · 65%
+            </div>
+            <div class="row-item critica">Fundaciones corridas · <span class="text-muted">100%</span></div>
+            <div class="row-item critica">Estructura piso 1 · <span class="text-muted">85%</span></div>
+            <div class="row-item critica">Estructura piso 2 · <span class="text-muted">40%</span></div>
+            <div class="row-item">Muros perimetrales · <span class="text-muted">75%</span></div>
+
+            <div class="hito-header">
+              <i class="bi bi-flag-fill"></i> 3. Instalaciones · 15%
+            </div>
+            <div class="row-item">Instalaciones eléctricas · <span class="text-muted">20%</span></div>
+            <div class="row-item">Instalaciones sanitarias · <span class="text-muted">10%</span></div>
+            <div class="row-item">Aire acondicionado · <span class="text-muted">0%</span></div>
+
+            <div class="hito-header">
+              <i class="bi bi-flag-fill"></i> 4. Terminaciones · 0%
+            </div>
+            <div class="row-item">Estuco interior · <span class="text-muted">0%</span></div>
+            <div class="row-item critica">Pintura · <span class="text-muted">0%</span></div>
+            <div class="row-item">Pavimentos · <span class="text-muted">0%</span></div>
+
+            <div class="hito-header">
+              <i class="bi bi-flag-fill"></i> 5. Recepción y entrega · 0%
+            </div>
+            <div class="row-item critica">Inspección municipal · <span class="text-muted">0%</span></div>
+            <div class="row-item">Entrega al cliente · <span class="text-muted">0%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="gantt-panel">
+          <div id="gantt"></div>
+        </div>
+
+        <!-- Leyenda -->
+        <div class="mt-3 d-flex flex-wrap gap-3 small text-muted">
+          <span><span class="legend-color" style="background:#cfe2ff"></span>Actividad normal</span>
+          <span><span class="legend-color" style="background:#0d6efd"></span>Avance completado</span>
+          <span><span class="legend-color" style="background:#fee2e2; border:1px solid #dc3545"></span>Actividad crítica</span>
+          <span><span class="legend-color" style="background:#dc3545"></span>Avance crítico</span>
+          <span>← Flechas = dependencias FS/SS/FF/SF</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-4 text-muted small">
+      <strong>Nota mockup:</strong> los datos son sintéticos para visualización. La versión final permite arrastrar barras
+      para reagendar (con recálculo automático de dependencias y respeto del calendario), agregar/eliminar dependencias
+      con click sobre las flechas, marcar actividades como críticas (calculado por CPM), y exportar a PDF/PNG.
+    </p>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.umd.js"></script>
+<script>
+// Datos sintéticos: obra residencial real
+const tasks = [
+  // Hito 1: Movimiento de tierras
+  { id: 'A1', name: 'Excavación general', start: '2026-03-02', end: '2026-03-21', progress: 100, dependencies: '' },
+  { id: 'A2', name: 'Compactación sub-base', start: '2026-03-22', end: '2026-04-04', progress: 100, dependencies: 'A1' },
+
+  // Hito 2: Obra gruesa
+  { id: 'A3', name: 'Fundaciones corridas', start: '2026-04-05', end: '2026-04-25', progress: 100, dependencies: 'A2', custom_class: 'gantt-critical' },
+  { id: 'A4', name: 'Estructura piso 1', start: '2026-04-26', end: '2026-05-30', progress: 85, dependencies: 'A3', custom_class: 'gantt-critical' },
+  { id: 'A5', name: 'Estructura piso 2', start: '2026-05-25', end: '2026-06-30', progress: 40, dependencies: 'A4', custom_class: 'gantt-critical' },
+  { id: 'A6', name: 'Muros perimetrales', start: '2026-05-15', end: '2026-06-25', progress: 75, dependencies: 'A4' },
+
+  // Hito 3: Instalaciones (parten en paralelo a estructura piso 2)
+  { id: 'A7', name: 'Inst. eléctricas', start: '2026-06-15', end: '2026-08-10', progress: 20, dependencies: 'A5' },
+  { id: 'A8', name: 'Inst. sanitarias', start: '2026-06-15', end: '2026-08-05', progress: 10, dependencies: 'A5' },
+  { id: 'A9', name: 'Aire acondicionado', start: '2026-07-20', end: '2026-08-30', progress: 0, dependencies: 'A7' },
+
+  // Hito 4: Terminaciones
+  { id: 'A10', name: 'Estuco interior', start: '2026-08-15', end: '2026-09-25', progress: 0, dependencies: 'A8' },
+  { id: 'A11', name: 'Pintura', start: '2026-09-26', end: '2026-10-25', progress: 0, dependencies: 'A10', custom_class: 'gantt-critical' },
+  { id: 'A12', name: 'Pavimentos', start: '2026-09-15', end: '2026-10-20', progress: 0, dependencies: 'A8' },
+
+  // Hito 5: Recepción
+  { id: 'A13', name: 'Inspección municipal', start: '2026-10-26', end: '2026-11-08', progress: 0, dependencies: 'A11', custom_class: 'gantt-critical' },
+  { id: 'A14', name: 'Entrega al cliente', start: '2026-11-09', end: '2026-11-15', progress: 0, dependencies: 'A13' },
+];
+
+const gantt = new Gantt('#gantt', tasks, {
+  view_mode: 'Week',
+  bar_height: 22,
+  padding: 16,
+  language: 'es',
+  on_click: function (task) { console.log('Click en', task.id, task.name); },
+  on_date_change: function (task, start, end) { console.log('Mover', task.id, start, end); },
+  on_progress_change: function (task, progress) { console.log('Avance', task.id, progress); },
+});
+
+function changeView(mode) {
+  gantt.change_view_mode(mode);
+  document.querySelectorAll('button[onclick^="changeView"]').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Toggle ruta crítica (mockup: ya está activa)
+document.getElementById('toggleCritical').addEventListener('click', () => {
+  alert('En la versión final: alterna el resaltado de las actividades de la ruta crítica calculada por el algoritmo CPM en tiempo real.');
+});
+</script>
+</body>
+</html>

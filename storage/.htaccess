@@ -1,0 +1,2 @@
+# Bloquear acceso directo a storage/
+Require all denied

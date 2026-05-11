@@ -20,7 +20,9 @@ $config['index_page']      = '';
 $config['uri_protocol']    = 'REQUEST_URI';
 
 $config['url_suffix']      = '';
-$config['language']        = 'spanish';
+// CI3 no incluye traducciones al español en su core; usamos english
+// para los mensajes de BD/migración. Los textos de la app son propios.
+$config['language']        = 'english';
 $config['charset']         = 'UTF-8';
 
 $config['enable_hooks']    = TRUE;

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# gmc — wrapper CLI para CodeIgniter
+#
+# Uso:
+#   ./gmc cli/migrate latest
+#   ./gmc cli/seed AdminUser
+#   ./gmc cli/mailer
+#   ./gmc cli/backup
+#
+# Requiere PHP en el PATH (en macOS con XAMPP, recordar agregar
+# /Applications/XAMPP/xamppfiles/bin a tu PATH).
+# ----------------------------------------------------------------------
+set -e
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec php "$DIR/public/index.php" "$@"

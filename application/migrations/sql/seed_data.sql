@@ -194,6 +194,9 @@ INSERT INTO `gmc_permisos` (`codigo`, `descripcion`, `modulo`) VALUES
   ('maestros.tipo_gasto.ver',     'Ver tipos de gasto',    'maestros'),
   ('maestros.tipo_gasto.editar',  'Editar tipos de gasto', 'maestros'),
 
+  ('maestros.tipo_cambio.ver',    'Ver tipos de cambio',           'maestros'),
+  ('maestros.tipo_cambio.editar', 'Cargar / editar tipos de cambio','maestros'),
+
   -- Finanzas / SDP
   ('finanzas.sdp.ver',        'Ver Solicitudes de Pago',           'finanzas'),
   ('finanzas.sdp.crear',      'Crear Solicitud de Pago',           'finanzas'),

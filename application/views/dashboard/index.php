@@ -26,12 +26,9 @@
 <div class="row g-3">
   <div class="col-12 col-lg-7">
     <div class="card shadow-sm">
-      <div class="card-header bg-white border-bottom-0 fw-semibold">Gasto mensual por obra</div>
+      <div class="card-header bg-white border-bottom-0 fw-semibold">Gasto mensual (últimos 12 meses)</div>
       <div class="card-body">
-        <div class="text-center text-muted py-5">
-          <i class="bi bi-bar-chart-line fs-1"></i>
-          <p class="mt-2 mb-0 small">Disponible en Sprint 5 (KPIs reales)</p>
-        </div>
+        <canvas id="chart-gasto" height="100"></canvas>
       </div>
     </div>
   </div>
@@ -39,12 +36,57 @@
   <div class="col-12 col-lg-5">
     <div class="card shadow-sm">
       <div class="card-header bg-white border-bottom-0 fw-semibold">Últimas bitácoras</div>
-      <div class="card-body">
-        <div class="text-center text-muted py-5">
-          <i class="bi bi-journal-text fs-1"></i>
-          <p class="mt-2 mb-0 small">Disponible cuando exista el módulo de obras (Sprint 4)</p>
-        </div>
-      </div>
+      <ul class="list-group list-group-flush">
+        <?php foreach ($bitacoras as $b):
+          $colorPorTipo = ['avance'=>'success','observacion'=>'info','incidencia'=>'danger','otro'=>'secondary'];
+          $color = $colorPorTipo[$b['tipo_evento']] ?? 'secondary'; ?>
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between">
+              <div>
+                <a href="<?= base_url('obras/bitacora/' . (int)$b['id']) ?>" class="fw-semibold text-decoration-none"><?= e($b['titulo']) ?></a>
+                <div class="small text-muted">
+                  <span class="badge bg-<?= $color ?>"><?= e(ucfirst($b['tipo_evento'])) ?></span>
+                  <?= e($b['proyecto_codigo']) ?> ·
+                  <?= e(format_date($b['fecha_evento'])) ?>
+                </div>
+              </div>
+            </div>
+          </li>
+        <?php endforeach; ?>
+        <?php if (!$bitacoras): ?>
+          <li class="list-group-item text-center text-muted py-4 small">Sin bitácoras registradas aún.</li>
+        <?php endif; ?>
+      </ul>
     </div>
   </div>
 </div>
+
+<script src="<?= base_url('assets/vendor/chartjs/chart.umd.min.js') ?>"></script>
+<script>
+(function () {
+  var labels = <?= json_encode(array_keys($serie)) ?>;
+  var data   = <?= json_encode(array_values($serie)) ?>;
+  var ctx = document.getElementById('chart-gasto').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Gasto CLP',
+        data: data,
+        backgroundColor: 'rgba(13, 110, 253, 0.7)',
+        borderColor: 'rgba(13, 110, 253, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, ticks: { callback: function (v) { return '$ ' + v.toLocaleString('es-CL'); } } }
+      }
+    }
+  });
+})();
+</script>
